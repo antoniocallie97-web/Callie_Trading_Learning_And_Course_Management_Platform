@@ -1,79 +1,64 @@
 from flask_restful import Resource
-from flask_jwt_extended import (
-    jwt_required,
-    get_jwt,
-    get_jwt_identity
-)
-
+from flask import request
 from extensions import db
 from models.user import User
 
 
 class UserListResource(Resource):
-    """
-    Admin only.
-    Returns all registered users.
-    """
-
-    @jwt_required()
     def get(self):
-        claims = get_jwt()
-
-        if claims.get("role") != "admin":
-            return {
-                "message": "Admin access required."
-            }, 403
-
         users = User.query.all()
+        return [user.to_dict() for user in users], 200
 
-        return {
-            "count": len(users),
-            "users": [
-                user.to_dict(rules=("-password_hash",))
-                for user in users
-            ]
-        }, 200
+    def post(self):
+        data = request.get_json()
+
+        # Check if email already exists
+        existing_user = User.query.filter_by(email=data["email"]).first()
+        if existing_user:
+            return {"message": "Email already exists."}, 400
+
+        user = User(
+            name=data["name"],
+            email=data["email"]
+        )
+
+        db.session.add(user)
+        db.session.commit()
+
+        return user.to_dict(), 201
 
 
 class UserResource(Resource):
-    """
-    Operations on a single user.
-    """
+    def get(self, id):
+        user = User.query.get(id)
 
-    @jwt_required()
-    def get(self, user_id):
+        if not user:
+            return {"message": "User not found."}, 404
 
-        current_user = int(get_jwt_identity())
-        claims = get_jwt()
+        return user.to_dict(), 200
 
-        user = User.query.get_or_404(user_id)
+    def put(self, id):
+        user = User.query.get(id)
 
-        # Admins can view anyone.
-        # Users can only view themselves.
-        if claims.get("role") != "admin" and current_user != user.id:
-            return {
-                "message": "Unauthorized."
-            }, 403
+        if not user:
+            return {"message": "User not found."}, 404
 
-        return user.to_dict(
-            rules=("-password_hash",)
-        ), 200
+        data = request.get_json()
 
-    @jwt_required()
-    def delete(self, user_id):
+        user.name = data.get("name", user.name)
+        user.email = data.get("email", user.email)
 
-        claims = get_jwt()
+        db.session.commit()
 
-        if claims.get("role") != "admin":
-            return {
-                "message": "Admin access required."
-            }, 403
+        return user.to_dict(), 200
 
-        user = User.query.get_or_404(user_id)
+    def delete(self, id):
+        user = User.query.get(id)
+
+        if not user:
+            return {"message": "User not found."}, 404
 
         db.session.delete(user)
         db.session.commit()
 
-        return {
-            "message": "User deleted successfully."
-        }, 200
+        return {"message": "User deleted successfully."}, 200
