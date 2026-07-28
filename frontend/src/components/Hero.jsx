@@ -1,58 +1,41 @@
-import { ArrowRight } from "lucide-react";
-
 export default function Hero() {
   return (
-    <section className="bg-gradient-to-r from-blue-700 to-cyan-600 text-white">
+    <section
+      className="relative h-screen bg-cover bg-center flex items-center"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(3,7,18,.80), rgba(3,7,18,.80)), url('https://images.unsplash.com/photo-1642790106117-e829e14a795f?auto=format&fit=crop&w=1800&q=80')",
+      }}
+    >
+      <div className="max-w-7xl mx-auto px-10 text-white">
 
-      <div className="max-w-7xl mx-auto px-8 py-24 grid md:grid-cols-2 gap-16 items-center">
+        <h1 className="text-7xl font-extrabold leading-tight">
+          MASTER THE
+          <br />
+          <span className="text-yellow-400">
+            FINANCIAL MARKETS
+          </span>
+        </h1>
 
-        <div>
+        <p className="mt-8 text-2xl text-gray-300 max-w-2xl leading-relaxed">
+          Learn Forex, Stocks, Crypto, Commodities and Risk Management
+          from beginner to professional with interactive lessons,
+          real market analysis and practical trading guides.
+        </p>
 
-          <h1 className="text-6xl font-bold leading-tight">
-            Learn Trading Like
-            <br />
-            Professionals
-          </h1>
+        <div className="mt-12 flex gap-6">
 
-          <p className="mt-8 text-xl text-gray-100">
+          <button className="bg-yellow-400 text-black px-10 py-5 rounded-xl text-xl font-bold hover:scale-105 transition">
+            Start Learning
+          </button>
 
-            Master Forex, Stocks, Crypto, Risk Management,
-            Technical Analysis and become a confident trader.
-
-          </p>
-
-          <div className="mt-10 flex gap-6">
-
-            <button className="bg-white text-blue-700 px-8 py-4 rounded-xl font-semibold hover:scale-105 transition">
-
-              Start Learning
-
-            </button>
-
-            <button className="flex items-center gap-2 border border-white px-8 py-4 rounded-xl hover:bg-white hover:text-blue-700 transition">
-
-              Browse Courses
-
-              <ArrowRight size={18} />
-
-            </button>
-
-          </div>
-
-        </div>
-
-        <div>
-
-          <img
-            src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=900"
-            alt="Trading"
-            className="rounded-3xl shadow-2xl"
-          />
+          <button className="border-2 border-white px-10 py-5 rounded-xl text-xl font-bold hover:bg-white hover:text-black transition">
+            Browse Courses
+          </button>
 
         </div>
 
       </div>
-
     </section>
   );
 }

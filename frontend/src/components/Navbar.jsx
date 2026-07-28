@@ -3,68 +3,143 @@ import { TrendingUp } from "lucide-react";
 
 export default function Navbar() {
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
+    <nav className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 shadow-2xl">
 
-        <Link
-          to="/"
-          className="flex items-center gap-2 text-3xl font-bold text-blue-700"
-        >
-          <TrendingUp size={34} />
-          CALLIE
-        </Link>
+      <div className="max-w-7xl mx-auto px-8 py-6">
 
-        <div className="flex gap-10">
+        {/* ================= TOP SECTION ================= */}
+
+        <div className="flex justify-between items-center">
+
+          {/* Logo */}
+          <div className="flex items-center gap-5">
+
+            <div className="bg-yellow-400 p-4 rounded-full shadow-2xl">
+              <TrendingUp size={50} className="text-blue-900" />
+            </div>
+
+            <div>
+              <h1 className="text-5xl font-black uppercase tracking-wider text-white">
+                CALLIE
+              </h1>
+
+              <p className="text-blue-200 text-xl uppercase tracking-[7px] font-semibold">
+                Trading Learning Platform
+              </p>
+            </div>
+
+          </div>
+
+          {/* Login/Register */}
+
+          <div className="flex gap-5">
+
+            <Link
+              to="/login"
+              className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-2xl text-2xl font-bold shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              Login
+            </Link>
+
+            <Link
+              to="/register"
+              className="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-2xl text-2xl font-bold shadow-xl transition-all duration-300 hover:scale-105"
+            >
+              Register
+            </Link>
+
+          </div>
+
+        </div>
+
+        {/* ================= NAVIGATION ================= */}
+
+        <div className="grid grid-cols-4 gap-8 mt-12">
 
           <Link
             to="/"
-            className="text-gray-700 hover:text-blue-700 transition duration-300"
+            className="h-28 flex items-center justify-center
+                       bg-blue-600
+                       rounded-3xl
+                       border-4 border-blue-300
+                       text-white
+                       text-3xl
+                       font-extrabold
+                       uppercase
+                       shadow-2xl
+                       hover:bg-blue-700
+                       hover:shadow-blue-500
+                       hover:-translate-y-2
+                       hover:scale-105
+                       transition-all duration-300"
           >
             Home
           </Link>
 
           <Link
             to="/courses"
-            className="text-gray-700 hover:text-blue-700 transition duration-300"
+            className="h-28 flex items-center justify-center
+                       bg-blue-600
+                       rounded-3xl
+                       border-4 border-blue-300
+                       text-white
+                       text-3xl
+                       font-extrabold
+                       uppercase
+                       shadow-2xl
+                       hover:bg-blue-700
+                       hover:shadow-blue-500
+                       hover:-translate-y-2
+                       hover:scale-105
+                       transition-all duration-300"
           >
             Courses
           </Link>
 
           <Link
             to="/guides"
-            className="text-gray-700 hover:text-blue-700 transition duration-300"
+            className="h-28 flex items-center justify-center
+                       bg-blue-600
+                       rounded-3xl
+                       border-4 border-blue-300
+                       text-white
+                       text-3xl
+                       font-extrabold
+                       uppercase
+                       shadow-2xl
+                       hover:bg-blue-700
+                       hover:shadow-blue-500
+                       hover:-translate-y-2
+                       hover:scale-105
+                       transition-all duration-300"
           >
             Guides
           </Link>
 
           <Link
             to="/dashboard"
-            className="text-gray-700 hover:text-blue-700 transition duration-300"
+            className="h-28 flex items-center justify-center
+                       bg-blue-600
+                       rounded-3xl
+                       border-4 border-blue-300
+                       text-white
+                       text-3xl
+                       font-extrabold
+                       uppercase
+                       shadow-2xl
+                       hover:bg-blue-700
+                       hover:shadow-blue-500
+                       hover:-translate-y-2
+                       hover:scale-105
+                       transition-all duration-300"
           >
             Dashboard
           </Link>
 
         </div>
 
-        <div className="flex gap-4">
-
-          <Link
-            to="/login"
-            className="px-5 py-2 rounded-lg border border-blue-700 text-blue-700 hover:bg-blue-700 hover:text-white transition"
-          >
-            Login
-          </Link>
-
-          <Link
-            to="/register"
-            className="px-5 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-800 transition"
-          >
-            Register
-          </Link>
-
-        </div>
-
       </div>
+
     </nav>
   );
 }

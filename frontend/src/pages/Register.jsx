@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../services/api";
 
 function Register() {
   const navigate = useNavigate();
@@ -8,177 +9,112 @@ function Register() {
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
 
+  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
-  async function handleSubmit(e) {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setError("");
-    setSuccess("");
-
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
     setLoading(true);
+    setMessage("");
+
+    console.log("Sending:", formData);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const response = await api.post("/api/register", formData);
 
-      const data = await response.json();
+      console.log(response.data);
 
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed.");
-      }
-
-      setSuccess("Account created successfully!");
+      setMessage(response.data.message);
 
       setTimeout(() => {
         navigate("/login");
       }, 1500);
 
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error("Registration Error:", error);
+
+      if (error.response) {
+        console.log(error.response.data);
+        setMessage(error.response.data.message);
+      } else {
+        setMessage("Unable to connect to the server.");
+      }
     }
-  }
+
+    setLoading(false);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-6">
+    <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg">
 
-      <div className="bg-white shadow-xl rounded-xl w-full max-w-md p-8">
+      <h1 className="text-3xl font-bold text-center mb-6">
+        Register
+      </h1>
 
-        <h1 className="text-3xl font-bold text-center text-blue-700">
-          Create Account
-        </h1>
+      {message && (
+        <div className="mb-4 text-center text-red-600">
+          {message}
+        </div>
+      )}
 
-        <p className="text-center text-gray-500 mt-2">
-          Join Callie Trading Learning Platform
-        </p>
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-        {error && (
-          <div className="mt-5 bg-red-100 text-red-700 p-3 rounded">
-            {error}
-          </div>
-        )}
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full border rounded p-3"
+          required
+        />
 
-        {success && (
-          <div className="mt-5 bg-green-100 text-green-700 p-3 rounded">
-            {success}
-          </div>
-        )}
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full border rounded p-3"
+          required
+        />
 
-        <form onSubmit={handleSubmit} className="space-y-5 mt-8">
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          value={formData.password}
+          onChange={handleChange}
+          className="w-full border rounded p-3"
+          required
+        />
 
-          <div>
-            <label className="block font-medium mb-2">
-              Username
-            </label>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded"
+        >
+          {loading ? "Registering..." : "Register"}
+        </button>
 
-            <input
-              type="text"
-              name="username"
-              placeholder="Enter username"
-              value={formData.username}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
+      </form>
 
-          <div>
-            <label className="block font-medium mb-2">
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-2">
-              Password
-            </label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Create password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="block font-medium mb-2">
-              Confirm Password
-            </label>
-
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-              className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition disabled:bg-gray-400"
-          >
-            {loading ? "Creating Account..." : "Register"}
-          </button>
-
-        </form>
-
-        <p className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-blue-700 font-semibold hover:underline"
-          >
-            Login
-          </Link>
-        </p>
-
-      </div>
+      <p className="text-center mt-6">
+        Already have an account?{" "}
+        <Link to="/login" className="text-blue-600">
+          Login
+        </Link>
+      </p>
 
     </div>
   );
