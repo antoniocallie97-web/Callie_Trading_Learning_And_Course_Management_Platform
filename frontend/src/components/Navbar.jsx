@@ -1,145 +1,189 @@
 import { Link } from "react-router-dom";
-import { TrendingUp } from "lucide-react";
+import {
+  Search,
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+} from "lucide-react";
+import { useState } from "react";
 
-export default function Navbar() {
+function Navbar() {
+  const [mobileMenu, setMobileMenu] = useState(false);
+
   return (
-    <nav className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 shadow-2xl">
+    <>
+      {/* Announcement Bar */}
+      <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-col md:flex-row justify-between items-center gap-2">
 
-      <div className="max-w-7xl mx-auto px-8 py-6">
-
-        {/* ================= TOP SECTION ================= */}
-
-        <div className="flex justify-between items-center">
-
-          {/* Logo */}
-          <div className="flex items-center gap-5">
-
-            <div className="bg-yellow-400 p-4 rounded-full shadow-2xl">
-              <TrendingUp size={50} className="text-blue-900" />
-            </div>
-
-            <div>
-              <h1 className="text-5xl font-black uppercase tracking-wider text-white">
-                CALLIE
-              </h1>
-
-              <p className="text-blue-200 text-xl uppercase tracking-[7px] font-semibold">
-                Trading Learning Platform
-              </p>
-            </div>
-
-          </div>
-
-          {/* Login/Register */}
-
-          <div className="flex gap-5">
-
-            <Link
-              to="/login"
-              className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-2xl text-2xl font-bold shadow-xl transition-all duration-300 hover:scale-105"
-            >
-              Login
-            </Link>
-
-            <Link
-              to="/register"
-              className="bg-yellow-400 hover:bg-yellow-300 text-black px-8 py-4 rounded-2xl text-2xl font-bold shadow-xl transition-all duration-300 hover:scale-105"
-            >
-              Register
-            </Link>
-
-          </div>
-
-        </div>
-
-        {/* ================= NAVIGATION ================= */}
-
-        <div className="grid grid-cols-4 gap-8 mt-12">
-
-          <Link
-            to="/"
-            className="h-28 flex items-center justify-center
-                       bg-blue-600
-                       rounded-3xl
-                       border-4 border-blue-300
-                       text-white
-                       text-3xl
-                       font-extrabold
-                       uppercase
-                       shadow-2xl
-                       hover:bg-blue-700
-                       hover:shadow-blue-500
-                       hover:-translate-y-2
-                       hover:scale-105
-                       transition-all duration-300"
-          >
-            Home
-          </Link>
+          <p className="text-sm font-medium text-center">
+            🎉 New Professional Trading Programs Now Available
+          </p>
 
           <Link
             to="/courses"
-            className="h-28 flex items-center justify-center
-                       bg-blue-600
-                       rounded-3xl
-                       border-4 border-blue-300
-                       text-white
-                       text-3xl
-                       font-extrabold
-                       uppercase
-                       shadow-2xl
-                       hover:bg-blue-700
-                       hover:shadow-blue-500
-                       hover:-translate-y-2
-                       hover:scale-105
-                       transition-all duration-300"
+            className="bg-yellow-400 hover:bg-yellow-500 text-blue-950 px-5 py-2 rounded-full text-sm font-bold transition"
           >
-            Courses
-          </Link>
-
-          <Link
-            to="/guides"
-            className="h-28 flex items-center justify-center
-                       bg-blue-600
-                       rounded-3xl
-                       border-4 border-blue-300
-                       text-white
-                       text-3xl
-                       font-extrabold
-                       uppercase
-                       shadow-2xl
-                       hover:bg-blue-700
-                       hover:shadow-blue-500
-                       hover:-translate-y-2
-                       hover:scale-105
-                       transition-all duration-300"
-          >
-            Guides
-          </Link>
-
-          <Link
-            to="/dashboard"
-            className="h-28 flex items-center justify-center
-                       bg-blue-600
-                       rounded-3xl
-                       border-4 border-blue-300
-                       text-white
-                       text-3xl
-                       font-extrabold
-                       uppercase
-                       shadow-2xl
-                       hover:bg-blue-700
-                       hover:shadow-blue-500
-                       hover:-translate-y-2
-                       hover:scale-105
-                       transition-all duration-300"
-          >
-            Dashboard
+            Explore Courses
           </Link>
 
         </div>
-
       </div>
 
-    </nav>
+      {/* Main Navbar */}
+      <nav className="sticky top-0 z-50 bg-white shadow-md">
+
+        <div className="max-w-7xl mx-auto px-6">
+
+          <div className="flex items-center justify-between h-20">
+
+            {/* Logo */}
+            <Link
+              to="/"
+              className="flex flex-col"
+            >
+              <span className="text-3xl font-extrabold tracking-wider text-blue-900">
+                CALLIE
+              </span>
+
+              <span className="text-xs tracking-[4px] text-gray-500 uppercase">
+                Trading Learning Platform
+              </span>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center gap-8">
+
+              <Link
+                to="/courses"
+                className="text-gray-700 hover:text-blue-700 font-medium transition"
+              >
+                Courses
+              </Link>
+
+              <Link
+                to="/certificates"
+                className="flex items-center gap-1 text-gray-700 hover:text-blue-700 font-medium transition"
+              >
+                Professional Certificates
+                <ChevronDown size={16} />
+              </Link>
+
+              <Link
+                to="/pre-college"
+                className="text-gray-700 hover:text-blue-700 font-medium transition"
+              >
+                Beginner Programs
+              </Link>
+
+              <Link
+                to="/enterprise"
+                className="text-gray-700 hover:text-blue-700 font-medium transition"
+              >
+                Enterprise
+              </Link>
+
+              <Link
+                to="/resources"
+                className="text-gray-700 hover:text-blue-700 font-medium transition"
+              >
+                Resource Center
+              </Link>
+
+            </div>
+
+            {/* Right Side */}
+            <div className="hidden lg:flex items-center gap-5">
+
+              <button className="text-gray-600 hover:text-blue-700 transition">
+                <Search size={22} />
+              </button>
+
+              <button className="text-gray-600 hover:text-blue-700 transition relative">
+                <ShoppingCart size={22} />
+
+                <span className="absolute -top-2 -right-2 bg-yellow-400 text-blue-950 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                  0
+                </span>
+              </button>
+
+              <Link
+                to="/login"
+                className="font-semibold text-blue-900 hover:text-blue-700 transition"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg"
+              >
+                Start Learning
+              </Link>
+
+            </div>
+
+            {/* Mobile Button */}
+            <button
+              onClick={() => setMobileMenu(!mobileMenu)}
+              className="lg:hidden"
+            >
+              {mobileMenu ? <X size={28} /> : <Menu size={28} />}
+            </button>
+
+          </div>
+
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenu && (
+
+          <div className="lg:hidden border-t bg-white">
+
+            <div className="flex flex-col p-6 space-y-5">
+
+              <Link to="/courses">Courses</Link>
+
+              <Link to="/certificates">
+                Professional Certificates
+              </Link>
+
+              <Link to="/pre-college">
+                Beginner Programs
+              </Link>
+
+              <Link to="/enterprise">
+                Enterprise
+              </Link>
+
+              <Link to="/resources">
+                Resource Center
+              </Link>
+
+              <Link
+                to="/login"
+                className="font-semibold text-blue-700"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                className="bg-blue-700 text-white text-center py-3 rounded-xl"
+              >
+                Start Learning
+              </Link>
+
+            </div>
+
+          </div>
+
+        )}
+
+      </nav>
+    </>
   );
 }
+
+export default Navbar;
