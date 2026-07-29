@@ -1,16 +1,12 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export default function Login() {
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -19,204 +15,158 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    setLoading(true);
-
-    try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/api/login",
-        formData
-      );
-
-      localStorage.setItem(
-        "token",
-        response.data.access_token
-      );
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-      );
-
-      alert("Login Successful!");
-
-      navigate("/dashboard");
-
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Invalid email or password."
-      );
-    }
-
-    setLoading(false);
+    console.log(formData);
   };
 
+
   return (
-    <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4">
+    <div
+      className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        bg-gray-100
+        px-6
+      "
+    >
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10">
+      <div
+        className="
+          bg-white
+          shadow-2xl
+          rounded-2xl
+          p-10
+          w-full
+          max-w-sm
+        "
+      >
 
-        {/* Logo */}
+        <h1
+          className="
+            text-3xl
+            font-extrabold
+            text-center
+            uppercase
+            text-blue-900
+            mb-8
+          "
+        >
+          LOGIN
+        </h1>
 
-        <div className="text-center mb-8">
-
-          <h1 className="text-5xl font-extrabold text-blue-700 tracking-wide">
-            CALLIE
-          </h1>
-
-          <p className="text-gray-500 text-lg mt-2">
-            Trading Learning Platform
-          </p>
-
-        </div>
-
-        {/* Welcome */}
-
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-          Welcome Back 👋
-        </h2>
-
-        {/* Form */}
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-6"
+          className="
+            flex
+            flex-col
+            items-center
+            gap-5
+          "
         >
 
-          <div>
 
-            <label className="block mb-2 font-semibold text-gray-700">
-              Email Address
-            </label>
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="
+              w-72
+              px-4
+              py-3
+              rounded-lg
+              border
+              border-gray-300
+              text-gray-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+            "
+          />
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="
-                w-full
-                h-12
-                px-4
-                rounded-xl
-                border-2
-                border-gray-300
-                focus:border-blue-600
-                focus:ring-2
-                focus:ring-blue-300
-                outline-none
-                transition
-              "
-            />
 
-          </div>
 
-          <div>
+          {/* Password */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="
+              w-72
+              px-4
+              py-3
+              rounded-lg
+              border
+              border-gray-300
+              text-gray-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+            "
+          />
 
-            <label className="block mb-2 font-semibold text-gray-700">
-              Password
-            </label>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="
-                w-full
-                h-12
-                px-4
-                rounded-xl
-                border-2
-                border-gray-300
-                focus:border-blue-600
-                focus:ring-2
-                focus:ring-blue-300
-                outline-none
-                transition
-              "
-            />
 
-          </div>
-
-          <div className="flex justify-between items-center">
-
-            <label className="flex items-center gap-2 text-gray-600">
-
-              <input type="checkbox" />
-
-              Remember Me
-
-            </label>
-
-            <button
-              type="button"
-              className="text-blue-700 hover:underline"
-            >
-              Forgot Password?
-            </button>
-
-          </div>
-
+          {/* Login Button */}
           <button
             type="submit"
-            disabled={loading}
             className="
-              w-full
-              bg-blue-700
-              hover:bg-blue-800
-              text-white
-              text-lg
-              font-bold
+              w-72
               py-3
-              rounded-xl
-              transition-all
-              duration-300
+              mt-4
+              rounded-lg
+              bg-blue-700
+              text-white
+              font-bold
+              uppercase
+              hover:bg-blue-800
+              transition
+              shadow-lg
             "
           >
-            {loading ? "Signing In..." : "LOGIN"}
+            Login
           </button>
+
 
         </form>
 
-        <div className="text-center mt-8">
 
-          <p className="text-gray-600">
-            Don't have an account?
-          </p>
 
-          <Link to="/register">
+        <p
+          className="
+            text-center
+            text-gray-600
+            mt-6
+          "
+        >
+          Don't have an account?
 
-            <button
-              className="
-                mt-4
-                w-full
-                bg-green-600
-                hover:bg-green-700
-                text-white
-                font-bold
-                text-lg
-                py-3
-                rounded-xl
-                transition-all
-                duration-300
-              "
-            >
-              REGISTER
-            </button>
+          <span
+            className="
+              text-blue-700
+              font-semibold
+              ml-2
+              cursor-pointer
+            "
+          >
+            Register
+          </span>
 
-          </Link>
+        </p>
 
-        </div>
 
       </div>
+
 
     </div>
   );

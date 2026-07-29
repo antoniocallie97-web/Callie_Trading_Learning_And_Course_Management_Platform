@@ -1,9 +1,6 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import api from "../services/api";
 
-function Register() {
-  const navigate = useNavigate();
+export default function Register() {
 
   const [formData, setFormData] = useState({
     username: "",
@@ -11,8 +8,6 @@ function Register() {
     password: "",
   });
 
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -21,103 +16,177 @@ function Register() {
     });
   };
 
-  const handleSubmit = async (e) => {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    setLoading(true);
-    setMessage("");
-
-    console.log("Sending:", formData);
-
-    try {
-      const response = await api.post("/api/register", formData);
-
-      console.log(response.data);
-
-      setMessage(response.data.message);
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 1500);
-
-    } catch (error) {
-      console.error("Registration Error:", error);
-
-      if (error.response) {
-        console.log(error.response.data);
-        setMessage(error.response.data.message);
-      } else {
-        setMessage("Unable to connect to the server.");
-      }
-    }
-
-    setLoading(false);
+    console.log(formData);
   };
 
+
   return (
-    <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-lg">
+    <div
+      className="
+        min-h-screen
+        flex
+        items-center
+        justify-center
+        bg-gray-100
+        px-6
+      "
+    >
 
-      <h1 className="text-3xl font-bold text-center mb-6">
-        Register
-      </h1>
+      <div
+        className="
+          bg-white
+          shadow-2xl
+          rounded-2xl
+          p-10
+          w-full
+          max-w-sm
+        "
+      >
 
-      {message && (
-        <div className="mb-4 text-center text-red-600">
-          {message}
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={formData.username}
-          onChange={handleChange}
-          className="w-full border rounded p-3"
-          required
-        />
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full border rounded p-3"
-          required
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          className="w-full border rounded p-3"
-          required
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white p-3 rounded"
+        <h1
+          className="
+            text-3xl
+            font-extrabold
+            text-center
+            uppercase
+            text-blue-900
+            mb-8
+          "
         >
-          {loading ? "Registering..." : "Register"}
-        </button>
+          REGISTER
+        </h1>
 
-      </form>
 
-      <p className="text-center mt-6">
-        Already have an account?{" "}
-        <Link to="/login" className="text-blue-600">
-          Login
-        </Link>
-      </p>
+        <form
+          onSubmit={handleSubmit}
+          className="
+            flex
+            flex-col
+            items-center
+            gap-5
+          "
+        >
+
+          {/* Username */}
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
+            onChange={handleChange}
+            className="
+              w-72
+              px-4
+              py-3
+              rounded-lg
+              border
+              border-gray-300
+              text-gray-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+            "
+          />
+
+
+          {/* Email */}
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+            className="
+              w-72
+              px-4
+              py-3
+              rounded-lg
+              border
+              border-gray-300
+              text-gray-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+            "
+          />
+
+
+          {/* Password */}
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={formData.password}
+            onChange={handleChange}
+            className="
+              w-72
+              px-4
+              py-3
+              rounded-lg
+              border
+              border-gray-300
+              text-gray-700
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-600
+            "
+          />
+
+
+          {/* Register Button */}
+          <button
+            type="submit"
+            className="
+              w-72
+              py-3
+              mt-4
+              rounded-lg
+              bg-blue-700
+              text-white
+              font-bold
+              uppercase
+              hover:bg-blue-800
+              transition
+              shadow-lg
+            "
+          >
+            Create Account
+          </button>
+
+
+        </form>
+
+
+        <p
+          className="
+            text-center
+            text-gray-600
+            mt-6
+          "
+        >
+          Already have an account?
+
+          <span
+            className="
+              text-blue-700
+              font-semibold
+              ml-2
+              cursor-pointer
+            "
+          >
+            Login
+          </span>
+
+        </p>
+
+
+      </div>
+
 
     </div>
   );
 }
-
-export default Register;
