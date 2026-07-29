@@ -1,186 +1,176 @@
-import { Link } from "react-router-dom";
-import {
-  Search,
-  ShoppingCart,
-  Menu,
-  X,
-  ChevronDown,
-} from "lucide-react";
 import { useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { Menu, X, Search, User } from "lucide-react";
 
 function Navbar() {
-  const [mobileMenu, setMobileMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItem = ({ isActive }) =>
+    `px-4 py-2 rounded-lg font-medium transition duration-300 ${
+      isActive
+        ? "bg-blue-700 text-white"
+        : "text-gray-700 hover:bg-blue-100 hover:text-blue-700"
+    }`;
 
   return (
     <>
       {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex flex-col md:flex-row justify-between items-center gap-2">
-
-          <p className="text-sm font-medium text-center">
-            🎉 New Professional Trading Programs Now Available
-          </p>
+      <div className="bg-blue-900 text-white">
+        <div className="max-w-7xl mx-auto px-6 py-2 flex justify-between items-center text-sm">
+          <span>📈 Learn Forex, Crypto & Stock Trading with Industry Professionals</span>
 
           <Link
-            to="/courses"
-            className="bg-yellow-400 hover:bg-yellow-500 text-blue-950 px-5 py-2 rounded-full text-sm font-bold transition"
+            to="/register"
+            className="bg-yellow-400 hover:bg-yellow-500 text-blue-900 px-4 py-1 rounded-full font-semibold transition"
           >
-            Explore Courses
+            Join Now
           </Link>
-
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <nav className="sticky top-0 z-50 bg-white shadow-md">
-
+      {/* Navigation */}
+      <nav className="sticky top-0 z-50 bg-white shadow-lg">
         <div className="max-w-7xl mx-auto px-6">
-
           <div className="flex items-center justify-between h-20">
 
             {/* Logo */}
-            <Link
-              to="/"
-              className="flex flex-col"
-            >
+            <Link to="/" className="flex flex-col">
               <span className="text-3xl font-extrabold tracking-wider text-blue-900">
                 CALLIE
               </span>
 
-              <span className="text-xs tracking-[4px] text-gray-500 uppercase">
+              <span className="text-xs uppercase tracking-[4px] text-gray-500">
                 Trading Learning Platform
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden lg:flex items-center gap-8">
+            <div className="hidden lg:flex items-center space-x-3">
 
-              <Link
-                to="/courses"
-                className="text-gray-700 hover:text-blue-700 font-medium transition"
-              >
+              <NavLink to="/" className={navItem}>
+                Home
+              </NavLink>
+
+              <NavLink to="/courses" className={navItem}>
                 Courses
-              </Link>
+              </NavLink>
 
-              <Link
-                to="/certificates"
-                className="flex items-center gap-1 text-gray-700 hover:text-blue-700 font-medium transition"
-              >
-                Professional Certificates
-                <ChevronDown size={16} />
-              </Link>
+              <NavLink to="/guides" className={navItem}>
+                Guides
+              </NavLink>
 
-              <Link
-                to="/pre-college"
-                className="text-gray-700 hover:text-blue-700 font-medium transition"
-              >
-                Beginner Programs
-              </Link>
+              <NavLink to="/dashboard" className={navItem}>
+                Dashboard
+              </NavLink>
 
-              <Link
-                to="/enterprise"
-                className="text-gray-700 hover:text-blue-700 font-medium transition"
-              >
-                Enterprise
-              </Link>
-
-              <Link
-                to="/resources"
-                className="text-gray-700 hover:text-blue-700 font-medium transition"
-              >
-                Resource Center
-              </Link>
+              <NavLink to="/profile" className={navItem}>
+                Profile
+              </NavLink>
 
             </div>
 
             {/* Right Side */}
-            <div className="hidden lg:flex items-center gap-5">
+            <div className="hidden lg:flex items-center gap-3">
 
-              <button className="text-gray-600 hover:text-blue-700 transition">
-                <Search size={22} />
-              </button>
-
-              <button className="text-gray-600 hover:text-blue-700 transition relative">
-                <ShoppingCart size={22} />
-
-                <span className="absolute -top-2 -right-2 bg-yellow-400 text-blue-950 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
-                  0
-                </span>
+              <button className="p-2 rounded-full hover:bg-gray-100">
+                <Search size={20} />
               </button>
 
               <Link
                 to="/login"
-                className="font-semibold text-blue-900 hover:text-blue-700 transition"
+                className="px-5 py-2 border border-blue-700 text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white transition"
               >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="bg-blue-700 hover:bg-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition shadow-lg"
+                className="px-5 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition"
               >
-                Start Learning
+                Register
               </Link>
+
+              <button className="p-2 rounded-full bg-blue-100 text-blue-700">
+                <User size={20} />
+              </button>
 
             </div>
 
             {/* Mobile Button */}
             <button
-              onClick={() => setMobileMenu(!mobileMenu)}
               className="lg:hidden"
+              onClick={() => setIsOpen(!isOpen)}
             >
-              {mobileMenu ? <X size={28} /> : <Menu size={28} />}
+              {isOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
 
           </div>
-
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenu && (
+        {isOpen && (
+          <div className="lg:hidden border-t bg-white shadow-md">
+            <div className="flex flex-col px-6 py-5 space-y-3">
 
-          <div className="lg:hidden border-t bg-white">
+              <NavLink
+                to="/"
+                className={navItem}
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </NavLink>
 
-            <div className="flex flex-col p-6 space-y-5">
+              <NavLink
+                to="/courses"
+                className={navItem}
+                onClick={() => setIsOpen(false)}
+              >
+                Courses
+              </NavLink>
 
-              <Link to="/courses">Courses</Link>
+              <NavLink
+                to="/guides"
+                className={navItem}
+                onClick={() => setIsOpen(false)}
+              >
+                Guides
+              </NavLink>
 
-              <Link to="/certificates">
-                Professional Certificates
-              </Link>
+              <NavLink
+                to="/dashboard"
+                className={navItem}
+                onClick={() => setIsOpen(false)}
+              >
+                Dashboard
+              </NavLink>
 
-              <Link to="/pre-college">
-                Beginner Programs
-              </Link>
-
-              <Link to="/enterprise">
-                Enterprise
-              </Link>
-
-              <Link to="/resources">
-                Resource Center
-              </Link>
+              <NavLink
+                to="/profile"
+                className={navItem}
+                onClick={() => setIsOpen(false)}
+              >
+                Profile
+              </NavLink>
 
               <Link
                 to="/login"
-                className="font-semibold text-blue-700"
+                className="w-full text-center py-3 border border-blue-700 rounded-lg text-blue-700 hover:bg-blue-700 hover:text-white transition"
+                onClick={() => setIsOpen(false)}
               >
                 Login
               </Link>
 
               <Link
                 to="/register"
-                className="bg-blue-700 text-white text-center py-3 rounded-xl"
+                className="w-full text-center py-3 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition"
+                onClick={() => setIsOpen(false)}
               >
-                Start Learning
+                Register
               </Link>
 
             </div>
-
           </div>
-
         )}
-
       </nav>
     </>
   );
