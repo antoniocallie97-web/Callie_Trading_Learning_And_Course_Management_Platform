@@ -1,187 +1,95 @@
-import { Link } from "react-router-dom";
-
 export default function Home() {
-  return (
-    <div className="min-h-screen bg-gray-100">
 
-      {/* Hero Section */}
-      <section
+  return (
+
+    <div
+      className="
+        min-h-screen
+        bg-gradient-to-br
+        from-blue-950
+        via-blue-800
+        to-indigo-900
+        text-white
+      "
+    >
+
+      {/* Dark overlay */}
+      <div
         className="
           min-h-screen
           flex
-          flex-col
           items-center
           justify-center
-          text-center
           px-6
-          bg-gradient-to-br
-          from-slate-950
-          via-blue-900
-          to-blue-600
-          text-white
+          bg-black/20
         "
       >
 
 
-        {/* Description */}
-        <p
-          className="
-            text-lg
-            sm:text-xl
-            md:text-2xl
-            text-blue-100
-            max-w-3xl
-            leading-relaxed
-          "
-        >
-          Learn Forex, Crypto & Stock Trading with Industry Professionals.
-          Build your knowledge, improve your strategies, and become a smarter trader.
-        </p>
-
-
-
-        {/* Buttons */}
         <div
           className="
-            flex
-            flex-col
-            sm:flex-row
-            gap-5
-            mt-10
-          "
-        >
-
-          <Link
-            to="/register"
-            className="
-              bg-yellow-500
-              text-slate-900
-              px-10
-              py-4
-              rounded-xl
-              font-bold
-              text-lg
-              hover:bg-yellow-400
-              transition
-              shadow-lg
-            "
-          >
-            JOIN NOW
-          </Link>
-
-
-
-          <Link
-            to="/courses"
-            className="
-              border-2
-              border-white
-              text-white
-              px-10
-              py-4
-              rounded-xl
-              font-bold
-              text-lg
-              hover:bg-white
-              hover:text-blue-900
-              transition
-            "
-          >
-            EXPLORE COURSES
-          </Link>
-
-        </div>
-
-
-
-
-        {/* Features Section */}
-        <div
-          className="
-            grid
-            grid-cols-1
-            md:grid-cols-3
-            gap-6
-            mt-16
+            text-center
             max-w-5xl
-            w-full
           "
         >
 
 
-          <div
+          <h1
             className="
-              bg-white/10
-              backdrop-blur-md
-              rounded-xl
-              p-6
-              shadow-lg
+              text-5xl
+              md:text-7xl
+              font-extrabold
+              leading-tight
+              mb-6
             "
           >
-
-            <h3 className="text-xl font-bold">
-              📈 Forex Trading
-            </h3>
-
-            <p className="mt-3 text-blue-100">
-              Learn currency markets, technical analysis, and professional trading strategies.
-            </p>
-
-          </div>
+            Learn Forex, Crypto & Stock Trading
+            <br />
+            with Industry Professionals
+          </h1>
 
 
 
-
-          <div
+          <p
             className="
-              bg-white/10
-              backdrop-blur-md
-              rounded-xl
-              p-6
-              shadow-lg
+              text-xl
+              md:text-2xl
+              text-gray-200
+              mb-10
             "
           >
-
-            <h3 className="text-xl font-bold">
-              💰 Crypto & Stocks
-            </h3>
-
-            <p className="mt-3 text-blue-100">
-              Understand digital assets and stock market opportunities.
-            </p>
-
-          </div>
+            Join Callie Trading Learning Platform
+            and master financial markets with expert guidance.
+          </p>
 
 
 
-
-
-          <div
+          <button
             className="
-              bg-white/10
-              backdrop-blur-md
-              rounded-xl
-              p-6
-              shadow-lg
+              bg-white
+              text-blue-900
+              px-10
+              py-4
+              rounded-full
+              text-lg
+              font-bold
+              shadow-xl
+              hover:bg-gray-200
+              transition
             "
           >
-
-            <h3 className="text-xl font-bold">
-              🎓 Professional Guides
-            </h3>
-
-            <p className="mt-3 text-blue-100">
-              Access structured lessons from beginner to advanced trading levels.
-            </p>
-
-          </div>
+            Join Now
+          </button>
 
 
         </div>
 
 
-      </section>
+      </div>
+
 
     </div>
+
   );
+
 }
