@@ -7,6 +7,9 @@ export default function Login() {
     password: "",
   });
 
+  // Added login success message
+  const [message, setMessage] = useState("");
+
 
   const handleChange = (e) => {
     setFormData({
@@ -20,6 +23,15 @@ export default function Login() {
     e.preventDefault();
 
     console.log(formData);
+
+    // Show login success message
+    setMessage("Login successful!");
+
+    // Clear form after login
+    setFormData({
+      email: "",
+      password: "",
+    });
   };
 
 
@@ -58,6 +70,22 @@ export default function Login() {
         >
           LOGIN
         </h1>
+
+
+        {/* Success Message */}
+        {message && (
+          <p
+            className="
+              text-green-600
+              text-center
+              font-bold
+              mb-5
+            "
+          >
+            {message}
+          </p>
+        )}
+
 
 
         <form

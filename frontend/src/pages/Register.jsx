@@ -8,6 +8,9 @@ export default function Register() {
     password: "",
   });
 
+  // Added success message state
+  const [message, setMessage] = useState("");
+
 
   const handleChange = (e) => {
     setFormData({
@@ -21,6 +24,16 @@ export default function Register() {
     e.preventDefault();
 
     console.log(formData);
+
+    // Show success message
+    setMessage("Registration successful!");
+
+    // Clear form after registration
+    setFormData({
+      username: "",
+      email: "",
+      password: "",
+    });
   };
 
 
@@ -61,6 +74,21 @@ export default function Register() {
         </h1>
 
 
+        {/* Success Message */}
+        {message && (
+          <p
+            className="
+              text-green-600
+              text-center
+              font-bold
+              mb-5
+            "
+          >
+            {message}
+          </p>
+        )}
+
+
         <form
           onSubmit={handleSubmit}
           className="
@@ -71,7 +99,6 @@ export default function Register() {
           "
         >
 
-          {/* Username */}
           <input
             type="text"
             name="username"
@@ -93,7 +120,6 @@ export default function Register() {
           />
 
 
-          {/* Email */}
           <input
             type="email"
             name="email"
@@ -115,7 +141,6 @@ export default function Register() {
           />
 
 
-          {/* Password */}
           <input
             type="password"
             name="password"
@@ -137,7 +162,6 @@ export default function Register() {
           />
 
 
-          {/* Register Button */}
           <button
             type="submit"
             className="
