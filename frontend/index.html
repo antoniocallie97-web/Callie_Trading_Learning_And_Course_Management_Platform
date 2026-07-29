@@ -2,38 +2,161 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8" />
 
-  <link
-    rel="icon"
-    type="image/svg+xml"
-    href="/vite.svg"
-  />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <meta
-    name="description"
-    content="Callie Trading Learning Management Platform - Learn Forex, Crypto, Stocks and Trading Strategies"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>
-    Callie Trading Academy
+    CALLIE Trading Learning Platform
   </title>
+
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <style>
+
+    * {
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+
+    body {
+
+      font-family:'Inter', sans-serif;
+
+      background:
+      linear-gradient(
+        135deg,
+        #020617,
+        #0f172a,
+        #1e40af
+      );
+
+      height:100vh;
+
+    }
+
+
+
+    #root {
+
+      height:100%;
+
+    }
+
+
+
+    .loading-screen {
+
+      height:100vh;
+
+      display:flex;
+
+      flex-direction:column;
+
+      justify-content:center;
+
+      align-items:center;
+
+      text-align:center;
+
+      color:white;
+
+    }
+
+
+
+    .loading-title {
+
+      font-size:70px;
+
+      font-weight:800;
+
+      letter-spacing:12px;
+
+      background:
+      linear-gradient(
+        90deg,
+        #60a5fa,
+        #ffffff
+      );
+
+      -webkit-background-clip:text;
+
+      -webkit-text-fill-color:transparent;
+
+    }
+
+
+
+
+    .loading-subtitle {
+
+      margin-top:20px;
+
+      font-size:28px;
+
+      font-weight:600;
+
+      letter-spacing:5px;
+
+      color:#bfdbfe;
+
+    }
+
+
+
+  </style>
+
+
 </head>
+
 
 <body>
 
-  <div id="root"></div>
 
-  <script
-    type="module"
-    src="/src/main.jsx">
-  </script>
+  <div id="root">
+
+
+    <div class="loading-screen">
+
+
+      <h1 class="loading-title">
+
+        CALLIE
+
+      </h1>
+
+
+      <p class="loading-subtitle">
+
+        TRADING LEARNING PLATFORM
+
+      </p>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <script type="module" src="/src/main.jsx"></script>
+
 
 </body>
+
 
 </html>

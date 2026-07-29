@@ -1,90 +1,100 @@
 import { Routes, Route } from "react-router-dom";
 
-// Layout Components
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import ProtectedRoute from "./components/ProtectedRoute";
-import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import Logo from "./components/Logo";
 
-// Pages
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
+import Courses from "./pages/Courses";
+import Guides from "./pages/Guides";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
-import Courses from "./pages/Courses";
-import CourseDetails from "./pages/CourseDetails";
-
-import Guides from "./pages/Guide";
-import GuideDetails from "./pages/GuidesDetails";
-
-import AdminDashboard from "./pages/AdminDashboard";
-
-import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <>
-      <Navbar />
 
-      <main className="min-h-screen bg-gray-100">
-        <Routes>
+      {/* Main Website Title - Top of Everything */}
+      <div
+        className="
+          w-full
+          text-center
+          py-8
+          bg-white
+        "
+      >
 
-          {/* ================= PUBLIC ROUTES ================= */}
+        <h1
+          className="
+            text-4xl
+            md:text-6xl
+            font-extrabold
+            uppercase
+            tracking-wide
+            text-blue-900
+            drop-shadow-lg
+          "
+        >
+          CALLIE TRADING AND LEARNING PLATFORM
+        </h1>
 
-          <Route path="/" element={<Home />} />
+      </div>
 
-          <Route path="/login" element={<Login />} />
 
-          <Route path="/register" element={<Register />} />
+      {/* CALLIE Logo */}
+      <div className="py-6">
+        <Logo />
+      </div>
 
-          <Route path="/courses" element={<Courses />} />
 
-          <Route path="/courses/:id" element={<CourseDetails />} />
+      {/* Navigation Lowered */}
+      <div className="mt-12">
+        <Navbar />
+      </div>
 
-          <Route path="/guides" element={<Guides />} />
 
-          <Route path="/guides/:id" element={<GuideDetails />} />
+      {/* Pages */}
+      <Routes>
 
-          {/* ================= PROTECTED USER ROUTES ================= */}
+        <Route 
+          path="/" 
+          element={<Home />} 
+        />
 
-          <Route element={<ProtectedRoute />}>
+        <Route 
+          path="/courses" 
+          element={<Courses />} 
+        />
 
-            <Route
-              path="/dashboard"
-              element={<Dashboard />}
-            />
+        <Route 
+          path="/guides" 
+          element={<Guides />} 
+        />
 
-            <Route
-              path="/profile"
-              element={<Profile />}
-            />
+        <Route 
+          path="/dashboard" 
+          element={<Dashboard />} 
+        />
 
-          </Route>
+        <Route 
+          path="/profile" 
+          element={<Profile />} 
+        />
 
-          {/* ================= ADMIN ROUTES ================= */}
+        <Route 
+          path="/login" 
+          element={<Login />} 
+        />
 
-          <Route element={<AdminProtectedRoute />}>
+        <Route 
+          path="/register" 
+          element={<Register />} 
+        />
 
-            <Route
-              path="/admin"
-              element={<AdminDashboard />}
-            />
+      </Routes>
 
-          </Route>
-
-          {/* ================= 404 ================= */}
-
-          <Route
-            path="*"
-            element={<NotFound />}
-          />
-
-        </Routes>
-      </main>
-
-      <Footer />
     </>
   );
 }
