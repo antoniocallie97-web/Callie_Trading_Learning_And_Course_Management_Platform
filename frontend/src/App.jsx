@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Logo from "./components/Logo";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
@@ -10,7 +11,6 @@ import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
 
 function App() {
   return (
@@ -25,7 +25,6 @@ function App() {
           bg-white
         "
       >
-
         <h1
           className="
             text-4xl
@@ -39,59 +38,61 @@ function App() {
         >
           CALLIE TRADING AND LEARNING PLATFORM
         </h1>
-
       </div>
-
 
       {/* CALLIE Logo */}
       <div className="py-6">
         <Logo />
       </div>
 
-
-      {/* Navigation Lowered */}
+      {/* Navigation */}
       <div className="mt-12">
         <Navbar />
       </div>
 
-
       {/* Pages */}
       <Routes>
 
-        <Route 
-          path="/" 
-          element={<Home />} 
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={<Home />}
         />
 
-        <Route 
-          path="/courses" 
-          element={<Courses />} 
+        <Route
+          path="/guides"
+          element={<Guides />}
         />
 
-        <Route 
-          path="/guides" 
-          element={<Guides />} 
+        <Route
+          path="/login"
+          element={<Login />}
         />
 
-        <Route 
-          path="/dashboard" 
-          element={<Dashboard />} 
+        <Route
+          path="/register"
+          element={<Register />}
         />
 
-        <Route 
-          path="/profile" 
-          element={<Profile />} 
-        />
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
 
-        <Route 
-          path="/login" 
-          element={<Login />} 
-        />
+          <Route
+            path="/courses"
+            element={<Courses />}
+          />
 
-        <Route 
-          path="/register" 
-          element={<Register />} 
-        />
+          <Route
+            path="/dashboard"
+            element={<Dashboard />}
+          />
+
+          <Route
+            path="/profile"
+            element={<Profile />}
+          />
+
+        </Route>
 
       </Routes>
 
