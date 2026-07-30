@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -13,14 +12,12 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,32 +26,35 @@ export default function Login() {
     setIsError(false);
 
     try {
-
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
-      if (response.ok) {
+      // Debug response from backend
+      console.log("Backend Response:", data);
 
+      if (response.ok) {
         setMessage(data.message || "Login successful!");
 
         // Save JWT token
-        localStorage.setItem("token", data.access_token);
+        if (data.access_token) {
+          localStorage.setItem("token", data.access_token);
+          console.log("Saved Token:", localStorage.getItem("token"));
+        } else {
+          console.error("No access_token received from backend.");
+        }
 
-        // Save user details
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data.user)
-        );
+        // Save user
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          console.log("Saved User:", data.user);
+        }
 
         // Clear form
         setFormData({
@@ -62,29 +62,21 @@ export default function Login() {
           password: "",
         });
 
-        // Redirect to Dashboard
+        // Redirect after 1 second
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
-
       } else {
-
         setIsError(true);
-        setMessage(data.message || "Invalid email or password.");
-
+        setMessage(data.message || data.msg || "Login failed.");
       }
-
     } catch (error) {
-
-      console.error(error);
+      console.error("Login Error:", error);
 
       setIsError(true);
       setMessage("Unable to connect to the server.");
-
     }
-
   };
-
 
   return (
     <div
@@ -97,7 +89,6 @@ export default function Login() {
         px-6
       "
     >
-
       <div
         className="
           bg-white
@@ -108,7 +99,6 @@ export default function Login() {
           max-w-sm
         "
       >
-
         <h1
           className="
             text-3xl
@@ -122,20 +112,15 @@ export default function Login() {
           LOGIN
         </h1>
 
-
         {message && (
           <p
-            className={`
-              text-center
-              font-bold
-              mb-5
-              ${isError ? "text-red-600" : "text-green-600"}
-            `}
+            className={`text-center font-bold mb-5 ${
+              isError ? "text-red-600" : "text-green-600"
+            }`}
           >
             {message}
           </p>
         )}
-
 
         <form
           onSubmit={handleSubmit}
@@ -146,8 +131,6 @@ export default function Login() {
             gap-5
           "
         >
-
-          {/* Email */}
           <input
             type="email"
             name="email"
@@ -169,8 +152,6 @@ export default function Login() {
             "
           />
 
-
-          {/* Password */}
           <input
             type="password"
             name="password"
@@ -192,8 +173,6 @@ export default function Login() {
             "
           />
 
-
-          {/* Login Button */}
           <button
             type="submit"
             className="
@@ -212,9 +191,7 @@ export default function Login() {
           >
             Login
           </button>
-
         </form>
-
 
         <p
           className="
@@ -237,11 +214,8 @@ export default function Login() {
           >
             Register
           </span>
-
         </p>
-
       </div>
-
     </div>
   );
 }
