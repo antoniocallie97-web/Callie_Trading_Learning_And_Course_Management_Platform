@@ -8,8 +8,8 @@ export default function Register() {
     password: "",
   });
 
-  // Added success message state
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
 
   const handleChange = (e) => {
@@ -20,20 +20,61 @@ export default function Register() {
   };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    setMessage("");
+    setIsError(false);
 
-    // Show success message
-    setMessage("Registration successful!");
+    try {
 
-    // Clear form after registration
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-    });
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+
+        setMessage(
+          data.message || "Registration successful!"
+        );
+
+        setFormData({
+          username: "",
+          email: "",
+          password: "",
+        });
+
+      } else {
+
+        setIsError(true);
+
+        setMessage(
+          data.message || "Registration failed."
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      setIsError(true);
+
+      setMessage(
+        "Unable to connect to the server."
+      );
+
+    }
+
   };
 
 
@@ -74,15 +115,14 @@ export default function Register() {
         </h1>
 
 
-        {/* Success Message */}
         {message && (
           <p
-            className="
-              text-green-600
+            className={`
               text-center
               font-bold
               mb-5
-            "
+              ${isError ? "text-red-600" : "text-green-600"}
+            `}
           >
             {message}
           </p>
@@ -117,6 +157,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
+            required
           />
 
 
@@ -138,6 +179,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
+            required
           />
 
 
@@ -159,6 +201,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
+            required
           />
 
 
@@ -207,9 +250,7 @@ export default function Register() {
 
         </p>
 
-
       </div>
-
 
     </div>
   );

@@ -1,14 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // Added login success message
   const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
 
   const handleChange = (e) => {
@@ -19,19 +22,74 @@ export default function Login() {
   };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    setMessage("");
+    setIsError(false);
 
-    // Show login success message
-    setMessage("Login successful!");
+    try {
 
-    // Clear form after login
-    setFormData({
-      email: "",
-      password: "",
-    });
+      const response = await fetch(
+        "http://127.0.0.1:5000/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+
+        setMessage(data.message);
+
+        // Save JWT token
+        localStorage.setItem(
+          "token",
+          data.access_token
+        );
+
+        // Save logged-in user
+        localStorage.setItem(
+          "user",
+          JSON.stringify(data.user)
+        );
+
+        // Clear form
+        setFormData({
+          email: "",
+          password: "",
+        });
+
+        // Redirect after 1 second
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
+
+      } else {
+
+        setIsError(true);
+        setMessage(
+          data.message || "Login failed."
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      setIsError(true);
+      setMessage(
+        "Unable to connect to the server."
+      );
+
+    }
+
   };
 
 
@@ -72,20 +130,18 @@ export default function Login() {
         </h1>
 
 
-        {/* Success Message */}
         {message && (
           <p
-            className="
-              text-green-600
+            className={`
               text-center
               font-bold
               mb-5
-            "
+              ${isError ? "text-red-600" : "text-green-600"}
+            `}
           >
             {message}
           </p>
         )}
-
 
 
         <form
@@ -98,14 +154,13 @@ export default function Login() {
           "
         >
 
-
-          {/* Email */}
           <input
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            required
             className="
               w-72
               px-4
@@ -121,14 +176,13 @@ export default function Login() {
           />
 
 
-
-          {/* Password */}
           <input
             type="password"
             name="password"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
+            required
             className="
               w-72
               px-4
@@ -144,8 +198,6 @@ export default function Login() {
           />
 
 
-
-          {/* Login Button */}
           <button
             type="submit"
             className="
@@ -165,9 +217,7 @@ export default function Login() {
             Login
           </button>
 
-
         </form>
-
 
 
         <p
@@ -192,9 +242,7 @@ export default function Login() {
 
         </p>
 
-
       </div>
-
 
     </div>
   );
