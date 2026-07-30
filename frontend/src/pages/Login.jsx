@@ -45,15 +45,12 @@ export default function Login() {
 
       if (response.ok) {
 
-        setMessage(data.message);
+        setMessage(data.message || "Login successful!");
 
         // Save JWT token
-        localStorage.setItem(
-          "token",
-          data.access_token
-        );
+        localStorage.setItem("token", data.access_token);
 
-        // Save logged-in user
+        // Save user details
         localStorage.setItem(
           "user",
           JSON.stringify(data.user)
@@ -65,7 +62,7 @@ export default function Login() {
           password: "",
         });
 
-        // Redirect after 1 second
+        // Redirect to Dashboard
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
@@ -73,9 +70,7 @@ export default function Login() {
       } else {
 
         setIsError(true);
-        setMessage(
-          data.message || "Login failed."
-        );
+        setMessage(data.message || "Invalid email or password.");
 
       }
 
@@ -84,9 +79,7 @@ export default function Login() {
       console.error(error);
 
       setIsError(true);
-      setMessage(
-        "Unable to connect to the server."
-      );
+      setMessage("Unable to connect to the server.");
 
     }
 
@@ -154,6 +147,7 @@ export default function Login() {
           "
         >
 
+          {/* Email */}
           <input
             type="email"
             name="email"
@@ -176,6 +170,7 @@ export default function Login() {
           />
 
 
+          {/* Password */}
           <input
             type="password"
             name="password"
@@ -198,6 +193,7 @@ export default function Login() {
           />
 
 
+          {/* Login Button */}
           <button
             type="submit"
             className="
@@ -230,11 +226,13 @@ export default function Login() {
           Don't have an account?
 
           <span
+            onClick={() => navigate("/register")}
             className="
               text-blue-700
               font-semibold
               ml-2
               cursor-pointer
+              hover:underline
             "
           >
             Register
