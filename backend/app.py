@@ -5,7 +5,9 @@ from flask_cors import CORS
 from config import Config
 from extensions import db, migrate, jwt
 from models import *
+
 from resources.auth import RegisterResource, LoginResource
+from resources.profile import ProfileResource
 
 
 def create_app():
@@ -33,8 +35,12 @@ def create_app():
             "status": "running"
         }
 
+    # Authentication
     api.add_resource(RegisterResource, "/api/register")
     api.add_resource(LoginResource, "/api/login")
+
+    # Profile
+    api.add_resource(ProfileResource, "/api/profile")
 
     return app
 
