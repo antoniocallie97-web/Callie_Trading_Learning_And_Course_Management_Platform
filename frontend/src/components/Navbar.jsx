@@ -1,6 +1,20 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/");
+
+  };
+
   return (
     <nav
       className="
@@ -43,7 +57,6 @@ export default function Navbar() {
           Home
         </Link>
 
-
         <Link
           to="/courses"
           className="
@@ -60,7 +73,6 @@ export default function Navbar() {
         >
           Courses
         </Link>
-
 
         <Link
           to="/guides"
@@ -79,7 +91,6 @@ export default function Navbar() {
           Guides
         </Link>
 
-
         <Link
           to="/dashboard"
           className="
@@ -96,7 +107,6 @@ export default function Navbar() {
         >
           Dashboard
         </Link>
-
 
         <Link
           to="/profile"
@@ -118,9 +128,7 @@ export default function Navbar() {
       </div>
 
 
-
-      {/* Register and Login Buttons */}
-
+      {/* Authentication Buttons */}
       <div
         className="
           flex
@@ -129,71 +137,88 @@ export default function Navbar() {
         "
       >
 
-        {/* Register */}
-        <div
-          className="
-            border-2
-            border-yellow-500
-            rounded-xl
-            px-7
-            py-3
-            bg-gradient-to-r
-            from-yellow-400
-            to-yellow-600
-            shadow-lg
-            hover:scale-110
-            transition
-          "
-        >
+        {!token ? (
+          <>
+            {/* Register */}
+            <div
+              className="
+                border-2
+                border-yellow-500
+                rounded-xl
+                px-7
+                py-3
+                bg-gradient-to-r
+                from-yellow-400
+                to-yellow-600
+                shadow-lg
+                hover:scale-110
+                transition
+              "
+            >
+              <Link
+                to="/register"
+                className="
+                  text-white
+                  text-lg
+                  font-bold
+                  uppercase
+                "
+              >
+                Register
+              </Link>
+            </div>
 
-          <Link
-            to="/register"
+            {/* Login */}
+            <div
+              className="
+                border-2
+                border-blue-700
+                rounded-xl
+                px-7
+                py-3
+                bg-blue-700
+                shadow-lg
+                hover:scale-110
+                transition
+              >
+              <Link
+                to="/login"
+                className="
+                  text-white
+                  text-lg
+                  font-bold
+                  uppercase
+                "
+              >
+                Login
+              </Link>
+            </div>
+          </>
+        ) : (
+          <button
+            onClick={handleLogout}
             className="
+              border-2
+              border-red-600
+              rounded-xl
+              px-7
+              py-3
+              bg-red-600
               text-white
               text-lg
               font-bold
               uppercase
+              shadow-lg
+              hover:bg-red-700
+              hover:scale-110
+              transition
             "
           >
-            Register
-          </Link>
-
-        </div>
-
-
-
-        {/* Login */}
-        <div
-          className="
-            border-2
-            border-blue-700
-            rounded-xl
-            px-7
-            py-3
-            bg-blue-700
-            shadow-lg
-            hover:scale-110
-            transition
-          "
-        >
-
-          <Link
-            to="/login"
-            className="
-              text-white
-              text-lg
-              font-bold
-              uppercase
-            "
-          >
-            Login
-          </Link>
-
-        </div>
-
+            Logout
+          </button>
+        )}
 
       </div>
-
 
     </nav>
   );
