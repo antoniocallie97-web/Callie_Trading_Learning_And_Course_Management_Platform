@@ -1,18 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-
   const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
 
   const handleLogout = () => {
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
     navigate("/");
-
   };
 
   return (
@@ -28,7 +25,6 @@ export default function Navbar() {
         justify-between
       "
     >
-
       {/* Main Navigation */}
       <div
         className="
@@ -39,7 +35,6 @@ export default function Navbar() {
           max-w-5xl
         "
       >
-
         <Link
           to="/"
           className="
@@ -124,9 +119,7 @@ export default function Navbar() {
         >
           Profile
         </Link>
-
       </div>
-
 
       {/* Authentication Buttons */}
       <div
@@ -136,7 +129,6 @@ export default function Navbar() {
           gap-8
         "
       >
-
         {!token ? (
           <>
             {/* Register */}
@@ -180,7 +172,8 @@ export default function Navbar() {
                 shadow-lg
                 hover:scale-110
                 transition
-              >
+              "
+            >
               <Link
                 to="/login"
                 className="
@@ -217,9 +210,7 @@ export default function Navbar() {
             Logout
           </button>
         )}
-
       </div>
-
     </nav>
   );
 }
