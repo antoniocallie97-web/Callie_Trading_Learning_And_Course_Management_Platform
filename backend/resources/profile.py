@@ -27,7 +27,14 @@ class ProfileResource(Resource):
                 "message": "Profile not found."
             }, 404
 
-        return user.profile.to_dict(), 200
+        return {
+            "username": user.username,
+            "email": user.email,
+            "bio": user.profile.bio,
+            "country": user.profile.country,
+            "experience_level": user.profile.experience_level,
+            "avatar": user.profile.avatar
+        }, 200
 
     @jwt_required()
     def post(self):
@@ -47,13 +54,13 @@ class ProfileResource(Resource):
         data = request.get_json()
 
         profile = Profile(
-            bio=data.get("bio"),
-            country=data.get("country"),
+            bio=data.get("bio", ""),
+            country=data.get("country", ""),
             experience_level=data.get(
                 "experience_level",
                 "Beginner"
             ),
-            avatar=data.get("avatar"),
+            avatar=data.get("avatar", ""),
             user_id=user.id
         )
 
@@ -62,7 +69,14 @@ class ProfileResource(Resource):
 
         return {
             "message": "Profile created successfully.",
-            "profile": profile.to_dict()
+            "profile": {
+                "username": user.username,
+                "email": user.email,
+                "bio": profile.bio,
+                "country": profile.country,
+                "experience_level": profile.experience_level,
+                "avatar": profile.avatar
+            }
         }, 201
 
     @jwt_required()
@@ -82,17 +96,35 @@ class ProfileResource(Resource):
 
         data = request.get_json()
 
+        # Update User table
+        user.username = data.get(
+            "username",
+            user.username
+        )
+
+        user.email = data.get(
+            "email",
+            user.email
+        )
+
+        # Update Profile table
         profile = user.profile
 
-        profile.bio = data.get("bio", profile.bio)
+        profile.bio = data.get(
+            "bio",
+            profile.bio
+        )
+
         profile.country = data.get(
             "country",
             profile.country
         )
+
         profile.experience_level = data.get(
             "experience_level",
             profile.experience_level
         )
+
         profile.avatar = data.get(
             "avatar",
             profile.avatar
@@ -102,7 +134,14 @@ class ProfileResource(Resource):
 
         return {
             "message": "Profile updated successfully.",
-            "profile": profile.to_dict()
+            "user": {
+                "username": user.username,
+                "email": user.email,
+                "bio": profile.bio,
+                "country": profile.country,
+                "experience_level": profile.experience_level,
+                "avatar": profile.avatar
+            }
         }, 200
 
     @jwt_required()
