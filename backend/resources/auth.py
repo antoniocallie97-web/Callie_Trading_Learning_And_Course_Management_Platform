@@ -7,19 +7,22 @@ from models.user import User
 
 
 class RegisterResource(Resource):
+
     def post(self):
         data = request.get_json()
 
-        # Validate required fields
-        required_fields = ["username", "email", "password"]
+        required_fields = [
+            "username",
+            "email",
+            "password"
+        ]
 
         for field in required_fields:
-            if field not in data or not data[field]:
+            if not data.get(field):
                 return {
                     "message": f"{field} is required."
                 }, 400
 
-        # Check username
         existing_username = User.query.filter_by(
             username=data["username"]
         ).first()
@@ -29,7 +32,6 @@ class RegisterResource(Resource):
                 "message": "Username already exists."
             }, 409
 
-        # Check email
         existing_email = User.query.filter_by(
             email=data["email"]
         ).first()
@@ -39,7 +41,6 @@ class RegisterResource(Resource):
                 "message": "Email already exists."
             }, 409
 
-        # Create user
         user = User(
             username=data["username"],
             email=data["email"],
@@ -60,6 +61,7 @@ class RegisterResource(Resource):
 
 
 class LoginResource(Resource):
+
     def post(self):
         data = request.get_json()
 
@@ -85,8 +87,10 @@ class LoginResource(Resource):
                 "message": "Invalid email or password."
             }, 401
 
+        # IMPORTANT:
+        # Store the user ID as a STRING in the JWT.
         access_token = create_access_token(
-            identity=user.id,
+            identity=str(user.id),
             additional_claims={
                 "role": user.role
             }
