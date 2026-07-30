@@ -1,77 +1,107 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-
   const navigate = useNavigate();
 
-  const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-
+  const token = localStorage.getItem("token");
 
   const [formData, setFormData] = useState({
-    username: storedUser.username || "",
-    email: storedUser.email || "",
-    phone: storedUser.phone || "",
-    country: storedUser.country || "",
-    bio: storedUser.bio || "",
+    username: "",
+    email: "",
+    phone: "",
+    country: "",
+    bio: "",
   });
-
 
   const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:5000/api/profile", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
+        if (response.status === 401) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+          navigate("/login");
+          return;
+        }
+
+        const data = await response.json();
+
+        setFormData({
+          username: data.username || "",
+          email: data.email || "",
+          phone: data.phone || "",
+          country: data.country || "",
+          bio: data.bio || "",
+        });
+
+        localStorage.setItem("user", JSON.stringify(data));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchProfile();
+  }, [navigate, token]);
 
   const handleChange = (e) => {
-
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
-
   };
 
-
-
-  const handleSubmit = (e) => {
-
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        ...storedUser,
-        ...formData,
-      })
-    );
+      const data = await response.json();
 
+      if (!response.ok) {
+        setMessage(data.message);
+        return;
+      }
 
-    setMessage("Profile updated successfully!");
+      setMessage(data.message);
 
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data.user)
+      );
+    } catch (error) {
+      console.error(error);
+      setMessage("Unable to connect to the server.");
+    }
   };
 
-
-
   const handleLogout = () => {
-
     localStorage.removeItem("token");
     localStorage.removeItem("user");
 
     navigate("/login");
-
   };
 
-
-
   return (
-
     <div className="min-h-screen bg-gray-100">
-
-
 
       {/* Header */}
       <header className="bg-blue-700 text-white shadow">
-
         <div
           className="
             max-w-6xl
@@ -83,11 +113,9 @@ function Profile() {
             items-center
           "
         >
-
           <h1 className="text-2xl font-bold">
             My Profile
           </h1>
-
 
           <button
             onClick={handleLogout}
@@ -101,16 +129,8 @@ function Profile() {
           >
             Logout
           </button>
-
-
         </div>
-
       </header>
-
-
-
-
-
 
       <div
         className="
@@ -120,9 +140,6 @@ function Profile() {
           px-6
         "
       >
-
-
-
         <div
           className="
             bg-white
@@ -131,8 +148,6 @@ function Profile() {
             overflow-hidden
           "
         >
-
-
 
           {/* Profile Banner */}
           <div
@@ -146,8 +161,6 @@ function Profile() {
               items-center
             "
           >
-
-
             <div
               className="
                 w-28
@@ -164,23 +177,11 @@ function Profile() {
                 border-white
               "
             >
-
-              {
-                formData.username
+              {formData.username
                 ? formData.username.charAt(0).toUpperCase()
-                : "U"
-              }
-
-
+                : "U"}
             </div>
-
-
           </div>
-
-
-
-
-
 
           <div
             className="
@@ -188,8 +189,6 @@ function Profile() {
               text-center
             "
           >
-
-
             <h2
               className="
                 text-3xl
@@ -199,18 +198,11 @@ function Profile() {
               {formData.username || "Student"}
             </h2>
 
-
-
             <p className="text-gray-500 mt-2">
               {formData.email}
             </p>
 
-
-
-
-
             {message && (
-
               <div
                 className="
                   mt-6
@@ -220,18 +212,9 @@ function Profile() {
                   rounded-lg
                 "
               >
-
                 {message}
-
               </div>
-
             )}
-
-
-
-
-
-
 
             <form
               onSubmit={handleSubmit}
@@ -243,10 +226,6 @@ function Profile() {
                 mt-8
               "
             >
-
-
-
-              {/* Username */}
               <input
                 type="text"
                 name="username"
@@ -265,10 +244,6 @@ function Profile() {
                 "
               />
 
-
-
-
-              {/* Email */}
               <input
                 type="email"
                 name="email"
@@ -287,11 +262,6 @@ function Profile() {
                 "
               />
 
-
-
-
-
-              {/* Phone */}
               <input
                 type="text"
                 name="phone"
@@ -310,11 +280,6 @@ function Profile() {
                 "
               />
 
-
-
-
-
-              {/* Country */}
               <input
                 type="text"
                 name="country"
@@ -333,12 +298,6 @@ function Profile() {
                 "
               />
 
-
-
-
-
-
-              {/* Bio */}
               <textarea
                 rows="4"
                 name="bio"
@@ -357,11 +316,6 @@ function Profile() {
                 "
               />
 
-
-
-
-
-
               <button
                 type="submit"
                 className="
@@ -377,31 +331,13 @@ function Profile() {
               >
                 Save Changes
               </button>
-
-
-
-
             </form>
 
-
-
           </div>
-
-
-
         </div>
-
-
-
       </div>
-
-
-
     </div>
-
   );
-
 }
-
 
 export default Profile;
