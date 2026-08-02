@@ -1,0 +1,292 @@
+/* ==========================
+   GUIDE DETAILS PAGE
+========================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.guide-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #050816 0%, #081726 45%, #0d2744 100%);
+  color: #fff;
+  padding: 50px 8%;
+}
+
+/* Hero */
+
+.guide-hero {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.guide-badge {
+  display: inline-block;
+  background: rgba(0, 183, 255, 0.15);
+  color: #2ec5ff;
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(46, 197, 255, 0.3);
+}
+
+.guide-hero h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.guide-hero p {
+  color: #c7d2e1;
+  max-width: 700px;
+  margin: auto;
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+/* Buttons */
+
+.hero-buttons {
+  margin-top: 35px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.primary-btn,
+.secondary-btn {
+  padding: 14px 34px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: .3s;
+}
+
+.primary-btn {
+  border: none;
+  background: #2ec5ff;
+  color: white;
+}
+
+.primary-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 25px rgba(46,197,255,.5);
+}
+
+.secondary-btn {
+  background: transparent;
+  border: 2px solid #2ec5ff;
+  color: white;
+}
+
+.secondary-btn:hover {
+  background: #2ec5ff;
+  color: #081726;
+}
+
+/* Stats */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 25px;
+  margin-bottom: 60px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(14px);
+  border-radius: 18px;
+  padding: 25px;
+  text-align: center;
+  transition: .3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  border-color: #2ec5ff;
+  box-shadow: 0 15px 40px rgba(0,0,0,.35);
+}
+
+.stat-card h3 {
+  color: #9fb3c8;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+
+.stat-card p {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2ec5ff;
+}
+
+/* Skills */
+
+.skills-section {
+  margin-bottom: 60px;
+}
+
+.skills-section h2 {
+  margin-bottom: 25px;
+  font-size: 30px;
+}
+
+.skills-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.skills-grid span {
+  background: rgba(46,197,255,.12);
+  border: 1px solid rgba(46,197,255,.3);
+  padding: 12px 22px;
+  border-radius: 30px;
+  transition: .3s;
+}
+
+.skills-grid span:hover {
+  background: #2ec5ff;
+  color: #081726;
+}
+
+/* Curriculum */
+
+.curriculum h2 {
+  margin-bottom: 30px;
+  font-size: 30px;
+}
+
+.lesson-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 20px 25px;
+  margin-bottom: 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: .3s;
+}
+
+.lesson-card:hover {
+  transform: translateX(8px);
+  border-color: #2ec5ff;
+  box-shadow: 0 12px 35px rgba(0,0,0,.3);
+}
+
+.lesson-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.lesson-number {
+  width: 55px;
+  height: 55px;
+  background: #2ec5ff;
+  color: #081726;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.lesson-left h3 {
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.lesson-left p {
+  color: #9fb3c8;
+}
+
+.play-btn {
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #2ec5ff;
+  color: #081726;
+  cursor: pointer;
+  font-size: 18px;
+  transition: .3s;
+}
+
+.play-btn:hover {
+  transform: scale(1.12);
+}
+
+/* Back Button */
+
+.back-section {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.back-btn {
+  background: transparent;
+  border: 2px solid #2ec5ff;
+  color: white;
+  padding: 14px 35px;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.back-btn:hover {
+  background: #2ec5ff;
+  color: #081726;
+}
+
+/* Responsive */
+
+@media (max-width:992px){
+
+  .stats-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media (max-width:768px){
+
+  .guide-page{
+    padding:30px 20px;
+  }
+
+  .guide-hero h1{
+    font-size:2.2rem;
+  }
+
+  .guide-hero p{
+    font-size:16px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+  }
+
+  .lesson-card{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:20px;
+  }
+
+  .lesson-left{
+    align-items:flex-start;
+  }
+
+  .play-btn{
+    align-self:flex-end;
+  }
+
+}
