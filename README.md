@@ -44,7 +44,6 @@ The platform is built using **React**, **Flask**, **JWT Authentication**, and **
 ## Database
 
 * SQLite (Development)
-* PostgreSQL (Recommended for Production)
 
 ---
 
@@ -94,7 +93,7 @@ Callie_Trading_Learning_Management_Platform/
 ## 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Callie_Trading_Learning_Management_Platform.git
+git clone https://github.com/antoniocallie97-web/Callie_Trading_Learning_And_Course_Management_PlatformCallie_Trading_Learning_Management_Platform.git
 
 cd Callie_Trading_Learning_Management_Platform
 ```
@@ -286,17 +285,12 @@ Request
 Deploy using:
 
 * Vercel
-* Netlify
 
 ## Backend
 
 Deploy using:
 
-* Railway
 * Render
-* PythonAnywhere
-* Fly.io
-* Google Cloud Run
 
 ---
 
