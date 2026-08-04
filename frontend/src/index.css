@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Global sizing */
 html,
 body,
 #root {
@@ -11,25 +13,120 @@ body,
   padding: 0;
 }
 
+
+/* Prevent horizontal scrolling on phones */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+
 body {
   font-family: Inter, sans-serif;
+
   background: linear-gradient(
     135deg,
     #ffffff 0%,
     #f8fafc 45%,
     #eff6ff 100%
   );
+
   color: #0f172a;
+
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+
+/* Better box sizing */
 * {
   box-sizing: border-box;
 }
 
+
+/* Remove default link styling */
 a {
   text-decoration: none;
 }
 
+
+/* Better button behaviour on mobile */
 button {
   cursor: pointer;
+  touch-action: manipulation;
+}
+
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+/* Better mobile input experience */
+input,
+textarea,
+select {
+  width: 100%;
+  max-width: 100%;
+}
+
+
+/* Prevent very large text from breaking mobile screens */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+
+/* Mobile padding helper */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+
+/* Tablet */
+@media (min-width: 640px) {
+
+  .container {
+    max-width: 640px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+}
+
+
+/* Laptop/Desktop */
+@media (min-width: 1024px) {
+
+  .container {
+    max-width: 1024px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+}
+
+
+/* Large screens */
+@media (min-width: 1280px) {
+
+  .container {
+    max-width: 1280px;
+  }
+
 }
