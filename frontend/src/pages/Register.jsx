@@ -1,6 +1,10 @@
- import { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Register() {
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: "",
@@ -11,14 +15,12 @@ export default function Register() {
   const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
 
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,25 +29,20 @@ export default function Register() {
     setIsError(false);
 
     try {
-
-      const response = await fetch(
-        "http://127.0.0.1:5000/api/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${API_URL}/api/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
-      if (response.ok) {
+      console.log("Backend Response:", data);
 
-        setMessage(
-          data.message || "Registration successful!"
-        );
+      if (response.ok) {
+        setMessage(data.message || "Registration successful!");
 
         setFormData({
           username: "",
@@ -53,30 +50,21 @@ export default function Register() {
           password: "",
         });
 
+        // Redirect to login page after successful registration
+        setTimeout(() => {
+          navigate("/login");
+        }, 1500);
       } else {
-
         setIsError(true);
-
-        setMessage(
-          data.message || "Registration failed."
-        );
-
+        setMessage(data.message || data.msg || "Registration failed.");
       }
-
     } catch (error) {
-
-      console.error(error);
+      console.error("Registration Error:", error);
 
       setIsError(true);
-
-      setMessage(
-        "Unable to connect to the server."
-      );
-
+      setMessage("Unable to connect to the server.");
     }
-
   };
-
 
   return (
     <div
@@ -89,7 +77,6 @@ export default function Register() {
         px-6
       "
     >
-
       <div
         className="
           bg-white
@@ -100,7 +87,6 @@ export default function Register() {
           max-w-sm
         "
       >
-
         <h1
           className="
             text-3xl
@@ -114,20 +100,15 @@ export default function Register() {
           REGISTER
         </h1>
 
-
         {message && (
           <p
-            className={`
-              text-center
-              font-bold
-              mb-5
-              ${isError ? "text-red-600" : "text-green-600"}
-            `}
+            className={`text-center font-bold mb-5 ${
+              isError ? "text-red-600" : "text-green-600"
+            }`}
           >
             {message}
           </p>
         )}
-
 
         <form
           onSubmit={handleSubmit}
@@ -138,13 +119,13 @@ export default function Register() {
             gap-5
           "
         >
-
           <input
             type="text"
             name="username"
             placeholder="Username"
             value={formData.username}
             onChange={handleChange}
+            required
             className="
               w-72
               px-4
@@ -157,9 +138,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
-            required
           />
-
 
           <input
             type="email"
@@ -167,6 +146,7 @@ export default function Register() {
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
+            required
             className="
               w-72
               px-4
@@ -179,9 +159,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
-            required
           />
-
 
           <input
             type="password"
@@ -189,6 +167,7 @@ export default function Register() {
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
+            required
             className="
               w-72
               px-4
@@ -201,9 +180,7 @@ export default function Register() {
               focus:ring-2
               focus:ring-blue-600
             "
-            required
           />
-
 
           <button
             type="submit"
@@ -223,10 +200,7 @@ export default function Register() {
           >
             Create Account
           </button>
-
-
         </form>
-
 
         <p
           className="
@@ -238,20 +212,19 @@ export default function Register() {
           Already have an account?
 
           <span
+            onClick={() => navigate("/login")}
             className="
               text-blue-700
               font-semibold
               ml-2
               cursor-pointer
+              hover:underline
             "
           >
             Login
           </span>
-
         </p>
-
       </div>
-
     </div>
   );
 }

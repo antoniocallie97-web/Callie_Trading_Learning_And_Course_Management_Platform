@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Login() {
   const navigate = useNavigate();
 
@@ -26,7 +28,7 @@ export default function Login() {
     setIsError(false);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/login", {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,7 +38,6 @@ export default function Login() {
 
       const data = await response.json();
 
-      // Debug response from backend
       console.log("Backend Response:", data);
 
       if (response.ok) {
@@ -45,12 +46,10 @@ export default function Login() {
         // Save JWT token
         if (data.access_token) {
           localStorage.setItem("token", data.access_token);
-          console.log("Saved Token:", localStorage.getItem("token"));
-        } else {
-          console.error("No access_token received from backend.");
+          console.log("Saved Token:", data.access_token);
         }
 
-        // Save user
+        // Save user information
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
           console.log("Saved User:", data.user);
@@ -62,7 +61,7 @@ export default function Login() {
           password: "",
         });
 
-        // Redirect after 1 second
+        // Redirect to dashboard
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
@@ -72,7 +71,6 @@ export default function Login() {
       }
     } catch (error) {
       console.error("Login Error:", error);
-
       setIsError(true);
       setMessage("Unable to connect to the server.");
     }
