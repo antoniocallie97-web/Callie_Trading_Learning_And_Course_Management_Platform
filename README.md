@@ -334,3 +334,8 @@ This project is licensed under the MIT License.
 Full Stack Developer
 
 **Callie Trading Learning Management Platform** was developed to provide a modern learning platform for aspiring Forex, Cryptocurrency, and Stock traders using React, Flask, JWT Authentication, and SQLAlchemy.
+Link to my vercel frontend app
+https://callie-trading-learning-and-course.vercel.app/
+
+link to backend 
+https://dashboard.render.com/project/prj-d9ou3mbm8hqs739t7uk0
